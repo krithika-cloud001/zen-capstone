@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS_ID = 'krithikacloud001'
+        DOCKERHUB_CREDENTIALS_ID = 'DockerHub'
         DEV_REPO = 'krithikacloud001/zencap-dev'
         PROD_REPO = 'krithikacloud001/kreact-app-prod'
     }
