@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Build and push Docker image to Dev repository
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                    docker.withRegistry('https://docker.io', DOCKERHUB_CREDENTIALS_ID) {
                         def devImage = docker.build("${DEV_REPO}:${BUILD_NUMBER}")
                         devImage.push()
                     }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Build and push Docker image to Prod repository
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS_ID) {
+                    docker.withRegistry('https://docker.io', DOCKERHUB_CREDENTIALS_ID) {
                         def prodImage = docker.build("${PROD_REPO}:${BUILD_NUMBER}")
                         prodImage.push()
                     }
