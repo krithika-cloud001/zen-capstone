@@ -9,10 +9,7 @@ pipeline {
 
     stages {
         stage('Build and Push Dev Image') {
-	    echo "Entering Dev Push stage"
-            when {
-                branch 'dev'
-            }
+	   
             steps {
                 script {
                     // Build and push Docker image to Dev repository
