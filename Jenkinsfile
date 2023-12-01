@@ -9,16 +9,10 @@ pipeline {
 
     stages {
         stage('Build and Push Dev Image') {
-	    when {
-                expression { 
-                    // Execute this stage only when changes are pushed to the 'dev' branch
-                    return env.BRANCH_NAME == 'dev'
-                }
-	       }
             steps {
                 script {
                     // Build and push Docker image to Dev repository
-                    docker.withRegistry('https://registry-1.docker.io', DOCKERHUB_CREDENTIALS_ID) {
+                    docker.withRegistry('https://docker.io', DOCKERHUB_CREDENTIALS_ID) {
                         def devImage = docker.build("${DEV_REPO}:${BUILD_NUMBER}")
 			echo "Pushing Dev Image..."
                         devImage.push()
@@ -34,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Build and push Docker image to Prod repository
-                    docker.withRegistry('https://registry-1.docker.io', DOCKERHUB_CREDENTIALS_ID) {
+                    docker.withRegistry('https://docker.io', DOCKERHUB_CREDENTIALS_ID) {
                         def prodImage = docker.build("${PROD_REPO}:${BUILD_NUMBER}")
                         prodImage.push()
                     }
