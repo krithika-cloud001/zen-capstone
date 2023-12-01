@@ -14,6 +14,7 @@ pipeline {
                     // Execute this stage only when changes are pushed to the 'dev' branch
                     return env.BRANCH_NAME == 'dev'
                 }
+	       }
             steps {
                 script {
                     // Build and push Docker image to Dev repository
