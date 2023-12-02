@@ -41,7 +41,7 @@ pipeline {
 	stage('Build and Push Prod Image') {
 	    when {
                 // Trigger the stage only when changes are pushed to the 'dev' branch
-               expression { env.BRANCH_NAME == 'master' }
+               expression { env.BRANCH_NAME == 'main' }
             }
             steps {
                 script {
