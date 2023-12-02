@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'DockerHub'
-	DOCKER_IMAGE_NAME = 'krithikacloud001/zenproject'
+	DOCKER_IMAGE_NAME = 'krithikacloud001/zencap-dev'
         DOCKER_IMAGE_TAG = 'latest'
         DEV_REPO = 'krithikacloud001/zencap-dev'
         PROD_REPO = 'krithikacloud001/kreact-app-prod'
@@ -18,13 +18,15 @@ pipeline {
         }
 
         stage('Build and Push Dev Image') {
-	   // when {
-                // Trigger the stage only when changes are pushed to the 'dev' branch
-             //   expression { env.BRANCH_NAME == 'dev' }
-           // }
+	    when {
+                 Trigger the stage only when changes are pushed to the 'dev' branch
+               expression { env.BRANCH_NAME == 'DEV' }
+            }
             steps {
                 script {
                     // Build the Docker image
+		    def gitbranch = env.BRANCH_NAME
+		    echo "Current Branch : ${gitbranch}" 
                     def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
 
                     // Authenticate with Docker Hub
