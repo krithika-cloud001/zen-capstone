@@ -21,7 +21,7 @@ pipeline {
         stage('Build and Push Dev Image') {
 	    when {
                 // Trigger the stage only when changes are pushed to the 'dev' branch
-               expression { env.BRANCH_NAME == 'DEV' }
+               expression { env.BRANCH_NAME == 'null' }
             }
             steps {
                 script {
