@@ -1,10 +1,5 @@
 pipeline {
-   agent {
-        dockerfile {
-            // Specify the path to the Dockerfile
-            filename 'Dockerfile'
-        }
-    }
+   agent any
 
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'DockerHub'
@@ -15,33 +10,31 @@ pipeline {
     }
 
     stages {
-        stage('Build and Push Dev Image') {
+	stage('Checkout') {
             steps {
-                script {
-                    // Build and push Docker image to Dev repository
-		       docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                       docker.withRegistry('https://index.docker.io/v1', DOCKERHUB_CREDENTIALS_ID) {
-                       docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
-		       echo "Pushing Dev Image..."
-                    }
-                }
+                // Checkout the code from the Git repository
+                checkout scm
             }
         }
 
-        stage('Build and Push Prod Image') {
-            when {
-                branch 'master'
+        stage('Build and Push Dev Image') {
+	    when {
+                // Trigger the stage only when changes are pushed to the 'dev' branch
+                expression { env.BRANCH_NAME == 'dev' }
             }
             steps {
                 script {
-                    // Build and push Docker image to Prod repository
-                    docker.withRegistry('https://index.docker.io/v1', DOCKERHUB_CREDENTIALS_ID) {
-                        def prodImage = docker.build("${PROD_REPO}:${BUILD_NUMBER}")
-                        prodImage.push()
+                    // Build the Docker image
+                    def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+
+                    // Authenticate with Docker Hub
+                    docker.withRegistry('https://registry-1.docker.io', DOCKERHUB_CREDENTIALS_ID) {
+                        // Push the Docker image to Docker Hub
+                        dockerImage.push()
                     }
                 }
             }
-        }
+	}
     }
 }
 
