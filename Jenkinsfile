@@ -14,6 +14,7 @@ pipeline {
             steps {
                 // Checkout the code from the Git repository
                 checkout scm
+		echo "Current Branch : ${env.BRANCH_NAME}"
             }
         }
 
