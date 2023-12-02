@@ -18,10 +18,10 @@ pipeline {
         }
 
         stage('Build and Push Dev Image') {
-	    when {
+	   // when {
                 // Trigger the stage only when changes are pushed to the 'dev' branch
-                expression { env.BRANCH_NAME == 'dev' }
-            }
+             //   expression { env.BRANCH_NAME == 'dev' }
+           // }
             steps {
                 script {
                     // Build the Docker image
